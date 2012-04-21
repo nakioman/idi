@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<grammar version="1.0" xml:lang="es-ES" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0" root="weather">
+  <rule id="weather">
+    <item>
+      <ruleref uri="#sinonimosTemperatura" />
+      <ruleref special="GARBAGE" />
+      <ruleref uri="#city" />
+      <ruleref special="GARBAGE" />
+      <ruleref uri="#unit" />
+      <tag>out.city = rules.city; out.unit = rules.unit;</tag>
+    </item>
+  </rule>
+  <rule id="sinonimosTemperatura">
+    <one-of>
+      <item>Temperatura</item>
+      <item>Clima</item>
+      <item>Tiempo</item>
+    </one-of>
+  </rule>
+  <rule id="city">
+    <tag>out = "Buenos Aires, Argentina"</tag>
+    <item repeat="0-1">
+      <one-of>
+        <item>Buenos Aires</item>
+        <item>
+          Capital <tag> out = "Buenos Aires, Argentina";</tag>
+        </item>
+        <item>
+          Bariloche <tag>out = "Bariloche, Argentina"</tag>
+        </item>
+      </one-of>
+    </item>
+  </rule>
+  <rule id="unit" >
+    <tag>out = "celsius"</tag>
+    <item repeat="0-1">
+      <one-of>
+        <item>celsius</item>
+        <item>
+          farenheit<tag>out = "farenheit"</tag>
+        </item>
+      </one-of>
+    </item>
+  </rule>
+</grammar>
