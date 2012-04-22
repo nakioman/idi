@@ -44,16 +44,23 @@
     <Compile Include="Configuration\SpeechRecognitionElement.cs" />
     <Compile Include="BasePlugin.cs" />
     <Compile Include="Bootstrap.cs" />
+    <Compile Include="Exceptions\IDISynthetizerVoiceException.cs" />
     <Compile Include="SpeechRecognizerInfo.cs" />
     <Compile Include="SpeechSynthesizerInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Kinect, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Speech" />
     <Reference Include="System.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

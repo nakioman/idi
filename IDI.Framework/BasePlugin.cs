@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Speech.Recognition.SrgsGrammar;
+using log4net;
+using log4net.Core;
 
 namespace IDI.Framework
 {    
@@ -14,5 +16,13 @@ namespace IDI.Framework
 
         [Import]
         protected SpeechSynthesizerInfo SpeechSynthesizer;
+
+        [Import(typeof(ILog))]
+        protected ILog Log;
+
+        ~BasePlugin()
+        {
+            Log.Info("A plugin is destructing itself");
+        }
     }
 }

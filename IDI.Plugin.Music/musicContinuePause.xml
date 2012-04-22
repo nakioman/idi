@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<grammar version="1.0" xml:lang="es-ES" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0" root="musicContinuePause">
+  <rule id="musicContinuePause">
+    <ruleref uri="#playerOptions"/>
+    <ruleref special="GARBAGE"/>
+    <ruleref uri="#tema"/>
+    <tag>out.option = rules.playerOptions</tag>
+  </rule>
+  <rule id="playerOptions">
+    <one-of>
+      <item>
+        Pausa<tag>out = "pause"</tag>
+      </item>
+      <item>
+        Continuá<tag>out ="play"</tag>
+      </item>
+      <item>
+        Reproducí<tag>out ="play"</tag>
+      </item>
+      <item>
+        Siguiente<tag>out = "next"</tag>
+      </item>
+      <item>
+        Anterior<tag>out = "previous"</tag>
+      </item>
+    </one-of>
+  </rule>
+  <rule id="tema">
+    <one-of>
+      <item>Tema</item>
+      <item>Canción</item>
+      <item>Música</item>
+    </one-of>
+  </rule>
+</grammar>

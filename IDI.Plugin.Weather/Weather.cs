@@ -37,10 +37,11 @@ namespace IDI.Plugin.Weather
             var temperature = unit == "celsius"
                 ? weather.CurrentConditions.Temperature.Celsius
                 : weather.CurrentConditions.Temperature.Fahrenheit;
-            var speak = String.Format("La temperatura en {0} es de {1} grados {2}", cityName, temperature, unit);
 
-            Console.WriteLine(speak);
+            var info = String.Format("La temperatura en {0} es de {1} grados {2}", cityName, temperature, unit);
+            var speak = String.Format("La temperatura es de {0} grados", temperature);
 
+            Log.Info(info);
             SpeechSynthesizer.SpeechSynthesizer.SpeakAsync(speak);
         }
     }

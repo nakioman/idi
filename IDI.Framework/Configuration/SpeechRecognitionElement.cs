@@ -1,3 +1,4 @@
+using System;
 using System.Configuration;
 
 namespace IDI.Framework.Configuration
@@ -18,7 +19,7 @@ namespace IDI.Framework.Configuration
             set { this["name"] = value; }
         }
 
-        [ConfigurationProperty("executeCommandPhrase", IsRequired = true)]
+        [ConfigurationProperty("executeCommandPhrase")]
         public string ExecuteCommandPhrase
         {
             get { return (string)this["executeCommandPhrase"]; }
@@ -32,7 +33,11 @@ namespace IDI.Framework.Configuration
             set { this["useKinectAudioSource"] = value; }
         }
 
-        
-
+        [ConfigurationProperty("minConfidence", DefaultValue = (float)0.6)]
+        public float MinimunConfidence
+        {
+            get { return (float)this["minConfidence"]; }
+            set { this["minConfidence"] = value; }
+        }
     }
 }
