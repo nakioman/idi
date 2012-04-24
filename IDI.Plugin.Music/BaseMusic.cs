@@ -10,6 +10,7 @@ namespace IDI.Plugin.Music
         protected BaseMusic()
         {
             Player = new WindowsMediaPlayer();
+            Player.settings.autoStart = true;
         }
     }
 }

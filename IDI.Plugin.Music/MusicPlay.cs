@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Speech.Recognition.SrgsGrammar;
-using IDI.Framework;
 using WMPLib;
 
 namespace IDI.Plugin.Music
@@ -41,8 +40,6 @@ namespace IDI.Plugin.Music
             srgsRuleMusic.Add(new SrgsRuleRef(srgsRuleAlbum));
             srgsRuleMusic.Add(SrgsRuleRef.Garbage);
             srgsRuleMusic.Add(new SrgsRuleRef(srgsRuleTitle));
-            srgsRuleMusic.Add(SrgsRuleRef.Garbage);
-            srgsRuleMusic.Add(new SrgsRuleRef(srgsRuleArtist));
             srgsRuleMusic.Add(new SrgsSemanticInterpretationTag("out.artist = rules.artist; out.album = rules.album; out.title = rules.title"));
 
             var mediaList = Player.mediaCollection.getByAttribute("MediaType", "audio");
@@ -54,17 +51,44 @@ namespace IDI.Plugin.Music
                 var album = item.getItemInfo("album");
                 var title = item.getItemInfo("title");
 
-                var srgsAuthorItem = new SrgsItem(author);
-                //srgsAuthorItem.Add(new SrgsSemanticInterpretationTag("out = \"" + author + "\""));
-                srgsOneOfArtist.Add(srgsAuthorItem);
+                if (!String.IsNullOrWhiteSpace(author))
+                {
+                    try
+                    {
+                        var srgsAuthorItem = new SrgsItem(author);
+                        srgsOneOfArtist.Add(srgsAuthorItem);
+                    }
+                    catch (FormatException exception)
+                    {
+                        Log.Info(string.Format("the author can't be parsed: {0}", exception));
+                    }
+                }
 
-                var srgsAlbumItem = new SrgsItem(album);
-                //srgsAlbumItem.Add(new SrgsSemanticInterpretationTag("out = \"" + album + "\""));
-                srgsOneOfAlbum.Add(srgsAlbumItem);
+                if (!String.IsNullOrWhiteSpace(album))
+                {
+                    try
+                    {
+                        var srgsAlbumItem = new SrgsItem(album);
+                        srgsOneOfAlbum.Add(srgsAlbumItem);
+                    }
+                    catch (FormatException exception)
+                    {
+                        Log.Info(string.Format("the album can't be parsed: {0}", exception));
+                    }
+                }
 
-                var srgsTitleItem = new SrgsItem(title);
-                //srgsTitleItem.Add(new SrgsSemanticInterpretationTag("out = \"" + title + "\""));
-                srgsOneOfTitle.Add(srgsTitleItem);
+                if (!String.IsNullOrWhiteSpace(title))
+                {
+                    try
+                    {
+                        var srgsTitleItem = new SrgsItem(title);
+                        srgsOneOfTitle.Add(srgsTitleItem);
+                    }
+                    catch (FormatException exception)
+                    {
+                        Log.Info(string.Format("the title of the song can't be parsed: {0}", exception));
+                    }
+                }
             }
 
             return new[] { srgsRuleAlbum, srgsRuleArtist, srgsRuleMusic, srgsRuleTitle };
