@@ -31,10 +31,5 @@ namespace IDI.Framework
                                                        "are you sure the voice exists?", ex);
             }
         }
-
-        ~SpeechSynthesizerInfo()
-        {
-            _log.Info("SpeechRecognizerInfo is destructing itself.");
-        }
     }
 }

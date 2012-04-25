@@ -41,10 +41,5 @@ namespace IDI.Framework
             _container.ComposeExportedValue(_logger);
             _container.ComposeParts(this);            
         }
-
-        ~Bootstrap()
-        {
-            _logger.Info("Bootstrap is destructing");   
-        }
     }
 }
