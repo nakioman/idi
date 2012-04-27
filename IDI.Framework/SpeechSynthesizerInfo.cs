@@ -11,10 +11,11 @@ namespace IDI.Framework
     [Export]
     public class SpeechSynthesizerInfo
     {
-        private readonly IDIFrameworkSection _config;
-        public SpeechSynthesizer SpeechSynthesizer { get; private set; }
         [Import]
         private ILog _log;
+
+        private readonly IDIFrameworkSection _config;
+        public SpeechSynthesizer SpeechSynthesizer { get; private set; }
 
         public SpeechSynthesizerInfo()
         {

@@ -3,9 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Speech.Recognition.SrgsGrammar;
 using System.Xml;
-using IDI.Framework;
 using IDI.Plugin.Music.Properties;
-using WMPLib;
 
 namespace IDI.Plugin.Music
 {

@@ -1,10 +1,8 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.IO;
 using System.Reflection;
 using log4net;
-using log4net.Core;
 
 namespace IDI.Framework
 {

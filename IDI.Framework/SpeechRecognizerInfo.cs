@@ -20,70 +20,21 @@ namespace IDI.Framework
 {
     public class SpeechRecognizerInfo : IPartImportsSatisfiedNotification
     {
-
-        [ImportMany(typeof(BasePlugin), AllowRecomposition = true)]
-        private IEnumerable<BasePlugin> _plugins;
-        private readonly IDIFrameworkSection _config;
-        private readonly SpeechRecognitionEngine _speechRecognitionEngine;
         [Import]
         private ILog _log;
-        KinectSensor _sensor;
+        
+        [ImportMany(typeof(BasePlugin), AllowRecomposition = true)]
+        private IEnumerable<BasePlugin> _plugins;
+
+        private readonly IDIFrameworkSection _config;
+        private readonly SpeechRecognitionEngine _speechRecognitionEngine;
+        private KinectSensor _sensor;
         private bool _speechRecognitionOn;
 
         public SpeechRecognizerInfo()
         {
             _config = (IDIFrameworkSection)ConfigurationManager.GetSection("idiFrameworkSection");
             _speechRecognitionEngine = SetupSpeechRecognitionEngine();
-        }
-
-        void SpeechRecognitionSpeechRecognized(object sender, SpeechRecognizedEventArgs e)
-        {
-            if (e.Result != null)
-            {
-                _log.Debug(String.Format("Speech recognized, result {0}, confidence {1}", e.Result.Text,
-                                         e.Result.Confidence));
-
-                if (e.Result.Confidence >= _config.SpeechRecognitionElement.MinimunConfidence)
-                {
-                    var semantics = e.Result.Semantics;
-                    if (semantics == null) return;
-                    var plugin = _plugins.SingleOrDefault(x => x.Id == (string)semantics["type"].Value);
-                    if (plugin == null) return;
-
-                    _log.Debug(String.Format("Plugin found name {0}", plugin.Id));
-
-                    Dictionary<string, string> dictionary = null;
-
-                    if (semantics["params"] != null && semantics["params"].Count > 0)
-                    {
-                        dictionary = new Dictionary<string, string>();
-                        foreach (var semantic in semantics["params"])
-                        {
-                            var semanticValue = semantic.Value;
-                            dictionary.Add(semantic.Key, (string)semanticValue.Value);
-                        }
-                    }
-
-                    PlayRecognitionOk();
-                    plugin.Execute(dictionary);
-                }
-                else
-                {
-                    PlayRecognitionError();
-                }
-            }
-            else
-            {
-                PlayRecognitionError();
-            }
-        }
-
-        private void PlayRecognitionOk()
-        {
-            using (var soundPlayer = new SoundPlayer { Stream = Resources.SpeechRecognized })
-            {
-                soundPlayer.Play();
-            }
         }
 
         private SpeechRecognitionEngine SetupSpeechRecognitionEngine()
@@ -202,6 +153,14 @@ namespace IDI.Framework
             }
         }
 
+        private void PlayRecognitionOk()
+        {
+            using (var soundPlayer = new SoundPlayer { Stream = Resources.SpeechRecognized })
+            {
+                soundPlayer.Play();
+            }
+        }
+
         private void SensorSkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
         {
             var skeletonFrame = e.OpenSkeletonFrame();
@@ -236,6 +195,48 @@ namespace IDI.Framework
                         _speechRecognitionEngine.RecognizeAsync(RecognizeMode.Multiple);
                     }
                 }
+            }
+        }
+
+        private void SpeechRecognitionSpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+        {
+            if (e.Result != null)
+            {
+                _log.Debug(String.Format("Speech recognized, result {0}, confidence {1}", e.Result.Text,
+                                         e.Result.Confidence));
+
+                if (e.Result.Confidence >= _config.SpeechRecognitionElement.MinimunConfidence)
+                {
+                    var semantics = e.Result.Semantics;
+                    if (semantics == null) return;
+                    var plugin = _plugins.SingleOrDefault(x => x.Id == (string)semantics["type"].Value);
+                    if (plugin == null) return;
+
+                    _log.Debug(String.Format("Plugin found name {0}", plugin.Id));
+
+                    Dictionary<string, string> dictionary = null;
+
+                    if (semantics["params"] != null && semantics["params"].Count > 0)
+                    {
+                        dictionary = new Dictionary<string, string>();
+                        foreach (var semantic in semantics["params"])
+                        {
+                            var semanticValue = semantic.Value;
+                            dictionary.Add(semantic.Key, (string)semanticValue.Value);
+                        }
+                    }
+
+                    PlayRecognitionOk();
+                    plugin.Execute(dictionary);
+                }
+                else
+                {
+                    PlayRecognitionError();
+                }
+            }
+            else
+            {
+                PlayRecognitionError();
             }
         }
     }

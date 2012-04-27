@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Speech.Recognition.SrgsGrammar;
 using log4net;
-using log4net.Core;
 
 namespace IDI.Framework
 {    
