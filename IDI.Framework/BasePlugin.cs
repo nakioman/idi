@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Speech.Recognition.SrgsGrammar;
+using Microsoft.Speech.Recognition.SrgsGrammar;
 using log4net;
 
 namespace IDI.Framework

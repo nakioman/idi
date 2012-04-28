@@ -7,7 +7,7 @@
       <ruleref uri="#city" />
       <ruleref special="GARBAGE" />
       <ruleref uri="#unit" />
-      <tag>out.city = rules.city; out.unit = rules.unit;</tag>
+      <tag>out.city=rules.city; out.unit=rules.unit;</tag>
     </item>
   </rule>
   <rule id="sinonimosTemperatura">

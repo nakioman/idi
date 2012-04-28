@@ -60,6 +60,13 @@ namespace IDI.Framework.Properties {
             }
         }
         
+        internal static byte[] mainDocument {
+            get {
+                object obj = ResourceManager.GetObject("mainDocument", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
         internal static System.IO.UnmanagedMemoryStream SpeechNotRecognized {
             get {
                 return ResourceManager.GetStream("SpeechNotRecognized", resourceCulture);

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Speech.Recognition.SrgsGrammar;
 using System.Xml;
 using Animaonline.Globals;
 using Animaonline.Weather;
 using IDI.Framework;
 using IDI.Plugin.Weather.Properties;
+using Microsoft.Speech.Recognition.SrgsGrammar;
 
 namespace IDI.Plugin.Weather
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Speech.Recognition.SrgsGrammar;
+using Microsoft.Speech.Recognition.SrgsGrammar;
 using WMPLib;
 
 namespace IDI.Plugin.Music

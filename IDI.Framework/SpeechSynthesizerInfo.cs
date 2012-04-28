@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Configuration;
-using System.Speech.Synthesis;
 using IDI.Framework.Configuration;
 using IDI.Framework.Exceptions;
+using Microsoft.Speech.Synthesis;
 using log4net;
 
 namespace IDI.Framework
@@ -24,6 +24,7 @@ namespace IDI.Framework
             try
             {
                 SpeechSynthesizer.SelectVoice(_config.SpeechSynthesizerElement.Name);    
+                SpeechSynthesizer.SetOutputToDefaultAudioDevice();
             }
             catch (Exception ex)
             {

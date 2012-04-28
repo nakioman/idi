@@ -5,14 +5,14 @@ using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Media;
-using System.Speech.AudioFormat;
-using System.Speech.Recognition;
 using System.Linq;
-using System.Speech.Recognition.SrgsGrammar;
 using System.Xml;
 using IDI.Framework.Configuration;
 using IDI.Framework.Exceptions;
 using Microsoft.Kinect;
+using Microsoft.Speech.AudioFormat;
+using Microsoft.Speech.Recognition;
+using Microsoft.Speech.Recognition.SrgsGrammar;
 using log4net;
 using IDI.Framework.Properties;
 
@@ -73,7 +73,9 @@ namespace IDI.Framework
 
         private void LoadGrammarForEngineAndPlugins()
         {
-            var mainDocument = new SrgsDocument();
+            var memoryStream = new MemoryStream(Resources.mainDocument);
+            var xmlReader = new XmlTextReader(memoryStream);
+            var mainDocument = new SrgsDocument(xmlReader);
 
             //Rule for plugins
             var pluginRules = new SrgsRule("plugin");
@@ -117,6 +119,8 @@ namespace IDI.Framework
             mainDocument.Rules.Add(pluginRules);
             mainDocument.Root = mainRule;
             mainDocument.Culture = _speechRecognitionEngine.RecognizerInfo.Culture;
+            mainDocument.Mode = SrgsGrammarMode.Voice;
+            mainDocument.PhoneticAlphabet = SrgsPhoneticAlphabet.Sapi;
 
             using (var textWriter = new StringWriter())
             {
