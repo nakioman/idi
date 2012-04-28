@@ -73,7 +73,9 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="musicContinuePause.xml" />
+    <None Include="musicContinuePause.xml">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

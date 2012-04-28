@@ -11,11 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDI.Cmd", "IDI.Cmd\IDI.Cmd.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDI.Plugin.Weather", "IDI.Plugin.Weather\IDI.Plugin.Weather.csproj", "{8AE3A441-3720-462A-9430-D37FCDCD4093}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{F9897E9E-D58D-4049-95E1-36BC390B8B82}"
-	ProjectSection(SolutionItems) = preProject
-		lib\Animaonline Weather API.dll = lib\Animaonline Weather API.dll
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDI.Plugin.Music", "IDI.Plugin.Music\IDI.Plugin.Music.csproj", "{BEF193F3-98B1-4181-B520-5E11D8B621F1}"
 EndProject
 Global
