@@ -41,16 +41,12 @@
     <Compile Include="Configuration\SpeechSynthesizerElement.cs" />
     <Compile Include="FaceDetectionRecognition.cs" />
     <Compile Include="KinectSensorInfo.cs" />
-    <Compile Include="Model\Face.cs" />
     <Compile Include="Exceptions\IDIRuntimeException.cs" />
     <Compile Include="Configuration\IDIFrameworkSection.cs" />
     <Compile Include="Configuration\SpeechRecognitionElement.cs" />
     <Compile Include="Plugins\BasePlugin.cs" />
     <Compile Include="Bootstrap.cs" />
     <Compile Include="Exceptions\IDISynthetizerVoiceException.cs" />
-    <Compile Include="Model\IDIContext.cs" />
-    <Compile Include="Model\User.cs" />
-    <Compile Include="Plugins\TrainFacePlugin.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -68,9 +64,6 @@
     </Reference>
     <Reference Include="Emgu.Util">
       <HintPath>..\lib\Emgu.Util.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.4.3.1\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
@@ -173,7 +166,6 @@
     <Content Include="opencv_video231.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="resources\trainface.xml" />
     <Content Include="ZedGraph.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

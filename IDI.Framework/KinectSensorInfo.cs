@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using IDI.Framework.Exceptions;
-using IDI.Framework.Model;
 using Microsoft.Kinect;
 using Microsoft.Speech.AudioFormat;
 using Microsoft.Speech.Recognition;
@@ -11,10 +10,7 @@ namespace IDI.Framework
     {
         private readonly KinectSensor _sensor;
         private readonly SpeechRecognitionEngine _speechRecognitionEngine;
-        private bool _speechRecognitionOn;
         private readonly FaceDetectionRecognition _face;
-
-        public User RecognizedUser { get; set; }
 
         public bool IsStarted { get; set; }
 
@@ -63,18 +59,7 @@ namespace IDI.Framework
 
                     if (detectedFace != null)
                     {
-                        //if (!_speechRecognitionOn)
-                        //{
-                            _speechRecognitionOn = true;
-                        var lalal = _speechRecognitionEngine.Recognize();
-                        //}
-
-                        RecognizedUser = _face.RecognizeFace(detectedFace);
-                    }
-                    else
-                    {
-                        _speechRecognitionEngine.RecognizeAsyncStop();
-                        _speechRecognitionOn = false;
+                        _speechRecognitionEngine.Recognize();
                     }
                 }
             }

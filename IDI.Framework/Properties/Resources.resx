@@ -127,13 +127,4 @@
   <data name="SpeechRecognized" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\speechrecognized.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="EndSpelling" xml:space="preserve">
-    <value>Finalizar deletreo</value>
-  </data>
-  <data name="StartSpelling" xml:space="preserve">
-    <value>Comenzar deletreo</value>
-  </data>
-  <data name="trainFace" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\trainface.xml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
 </root>
