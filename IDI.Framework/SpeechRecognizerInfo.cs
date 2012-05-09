@@ -84,15 +84,7 @@ namespace IDI.Framework
             //Here you should add choices to the document per Plugin
             foreach (var plugin in _plugins)
             {
-                mainDocument.Rules.Add(plugin.GetGrammarRules());
-
-                var pluginRuleItem = new SrgsItem();
-                var refCurrentPluginRule = new SrgsRuleRef(mainDocument.Rules.Single(x => x.Id == plugin.Id));
-                var outPluginRuleItemSemantic = String.Format("out.type=\"{0}\"; out.params=rules.{0};", plugin.Id);
-
-                pluginRuleItem.Add(refCurrentPluginRule);
-                pluginRuleItem.Add(new SrgsSemanticInterpretationTag(outPluginRuleItemSemantic));
-                choices.Add(pluginRuleItem);
+                plugin.AddGrammarRules(mainDocument.Rules, choices);
             }
 
             mainDocument.Rules.Add(mainRule);

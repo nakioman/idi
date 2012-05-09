@@ -19,7 +19,7 @@ namespace IDI.Plugin.Weather
             get { return "weather"; }
         }        
 
-        public override SrgsRule[] GetGrammarRules()
+        protected override SrgsRule[] GetGrammarRules()
         {
             using (var stream = new MemoryStream(Resources.grammar))
             using (var xmlReader = XmlReader.Create(stream))

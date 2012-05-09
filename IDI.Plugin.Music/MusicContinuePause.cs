@@ -14,7 +14,7 @@ namespace IDI.Plugin.Music
             get { return "musicContinuePause"; }
         }
 
-        public override SrgsRule[] GetGrammarRules()
+        protected override SrgsRule[] GetGrammarRules()
         {
             using (var stream = new MemoryStream(Resources.musicContinuePause))
             using (var xmlReader = XmlReader.Create(stream))

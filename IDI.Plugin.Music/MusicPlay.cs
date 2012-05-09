@@ -12,7 +12,7 @@ namespace IDI.Plugin.Music
             get { return "musicPlay"; }
         }
 
-        public override SrgsRule[] GetGrammarRules()
+        protected override SrgsRule[] GetGrammarRules()
         {
             var srgsRuleArtist = new SrgsRule("artist");
             var srgsItemArtist = new SrgsItem(0, 1);
@@ -91,7 +91,12 @@ namespace IDI.Plugin.Music
                 }
             }
 
-            return new[] { srgsRuleAlbum, srgsRuleArtist, srgsRuleMusic, srgsRuleTitle };
+            if (srgsOneOfArtist.Items.Count > 0 || srgsOneOfAlbum.Items.Count > 0 || srgsOneOfTitle.Items.Count > 0)
+            {
+                return new[] { srgsRuleAlbum, srgsRuleArtist, srgsRuleMusic, srgsRuleTitle };    
+            }
+
+            return new SrgsRule[0];
         }
 
         public override void Execute(IDictionary<string, string> dictionary)
