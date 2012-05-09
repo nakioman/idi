@@ -1,10 +1,11 @@
-using System.Data.Entity;
-
 namespace IDI.Framework.Model
 {
-    public class User : DbContext
+    public class User
     {
-        public string Username { get; set; }
+        public int Id { get; set; }
+        
         public string NickName { get; set; }
+
+        public Face Face { get; set; }
     }
 }

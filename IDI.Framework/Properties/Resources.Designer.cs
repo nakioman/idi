@@ -60,6 +60,15 @@ namespace IDI.Framework.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Finalizar deletreo.
+        /// </summary>
+        internal static string EndSpelling {
+            get {
+                return ResourceManager.GetString("EndSpelling", resourceCulture);
+            }
+        }
+        
         internal static byte[] mainDocument {
             get {
                 object obj = ResourceManager.GetObject("mainDocument", resourceCulture);
@@ -76,6 +85,22 @@ namespace IDI.Framework.Properties {
         internal static System.IO.UnmanagedMemoryStream SpeechRecognized {
             get {
                 return ResourceManager.GetStream("SpeechRecognized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comenzar deletreo.
+        /// </summary>
+        internal static string StartSpelling {
+            get {
+                return ResourceManager.GetString("StartSpelling", resourceCulture);
+            }
+        }
+        
+        internal static byte[] trainFace {
+            get {
+                object obj = ResourceManager.GetObject("trainFace", resourceCulture);
+                return ((byte[])(obj));
             }
         }
     }

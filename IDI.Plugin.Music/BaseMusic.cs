@@ -1,4 +1,5 @@
 ﻿using IDI.Framework;
+using IDI.Framework.Plugins;
 using WMPLib;
 
 namespace IDI.Plugin.Music

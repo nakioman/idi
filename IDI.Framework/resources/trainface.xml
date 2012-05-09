@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<grammar version="1.0" xml:lang="es-ES" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0" root="trainFace">
+  <rule id="trainFace">
+    <tag>out=""</tag>
+    <item>Agregar usuario</item>
+    <item repeat="1-">
+      <ruleref uri="#letters" />
+      <tag>out.user += rules.latest();</tag>
+    </item>
+    <item>Fin</item>
+  </rule>
+  <rule id="letters">
+    <one-of>
+      <item>A</item>
+      <item>B</item>
+      <item>C</item>
+      <item>D</item>
+      <item>E</item>
+      <item>F</item>
+      <item>G</item>
+      <item>H</item>
+      <item>I</item>
+      <item>J</item>
+      <item>K</item>
+      <item>L</item>
+      <item>M</item>
+      <item>N</item>
+      <item>O</item>
+      <item>P</item>
+      <item>Q</item>
+      <item>R</item>
+      <item>S</item>
+      <item>T</item>
+      <item>U</item>
+      <item>V</item>
+      <item>W</item>
+      <item>X</item>
+      <item>Y</item>
+      <item>Z</item>
+    </one-of>
+  </rule>
+</grammar>

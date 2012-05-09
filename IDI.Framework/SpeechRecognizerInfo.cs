@@ -8,9 +8,7 @@ using System.Media;
 using System.Linq;
 using System.Xml;
 using IDI.Framework.Configuration;
-using IDI.Framework.Exceptions;
-using Microsoft.Kinect;
-using Microsoft.Speech.AudioFormat;
+using IDI.Framework.Plugins;
 using Microsoft.Speech.Recognition;
 using Microsoft.Speech.Recognition.SrgsGrammar;
 using log4net;
@@ -18,18 +16,18 @@ using IDI.Framework.Properties;
 
 namespace IDI.Framework
 {
+    [Export]
     public class SpeechRecognizerInfo : IPartImportsSatisfiedNotification
     {
         [Import]
         private ILog _log;
-        
+
         [ImportMany(typeof(BasePlugin), AllowRecomposition = true)]
         private IEnumerable<BasePlugin> _plugins;
 
         private readonly IDIFrameworkSection _config;
         private readonly SpeechRecognitionEngine _speechRecognitionEngine;
-        private KinectSensor _sensor;
-        private bool _speechRecognitionOn;
+        private KinectSensorInfo _kinectSensor;
 
         public SpeechRecognizerInfo()
         {
@@ -43,25 +41,7 @@ namespace IDI.Framework
 
             if (_config.SpeechRecognitionElement.UseKinectAudioSource)
             {
-                _sensor = KinectSensor.KinectSensors.FirstOrDefault();
-                if (_sensor == null)
-                {
-                    throw new IDIRuntimeException("Can't find kinect sensor, is it connected?", null);
-                }
-
-                _sensor.ColorStream.Disable();
-                _sensor.SkeletonStream.Enable();
-                _sensor.DepthStream.Disable();
-                _sensor.Start();
-
-
-                var audioSource = _sensor.AudioSource;
-                audioSource.BeamAngleMode = BeamAngleMode.Adaptive;
-                audioSource.EchoCancellationMode = EchoCancellationMode.CancellationAndSuppression;
-                audioSource.NoiseSuppression = true;
-                var kinectStream = audioSource.Start();
-
-                speechRecognitionEngine.SetInputToAudioStream(kinectStream, new SpeechAudioFormatInfo(EncodingFormat.Pcm, 16000, 16, 1, 32000, 2, null));
+                _kinectSensor = new KinectSensorInfo(speechRecognitionEngine);
             }
             else
             {
@@ -136,12 +116,19 @@ namespace IDI.Framework
 
         public void OnImportsSatisfied()
         {
+            if (_kinectSensor != null && _kinectSensor.IsStarted)
+            {
+                _kinectSensor.Stop();
+            }
+
+            _speechRecognitionEngine.RecognizeAsyncStop();
             _speechRecognitionEngine.UnloadAllGrammars();
             LoadGrammarForEngineAndPlugins();
             _speechRecognitionEngine.SpeechRecognized += SpeechRecognitionSpeechRecognized;
-            if (_config.SpeechRecognitionElement.UseKinectAudioSource)
+
+            if (_kinectSensor != null && _config.SpeechRecognitionElement.UseKinectAudioSource)
             {
-                _sensor.SkeletonFrameReady += SensorSkeletonFrameReady;
+                _kinectSensor.Start();
             }
             else
             {
@@ -157,7 +144,7 @@ namespace IDI.Framework
             }
         }
 
-        private void PlayRecognitionOk()
+        private static void PlayRecognitionOk()
         {
             using (var soundPlayer = new SoundPlayer { Stream = Resources.SpeechRecognized })
             {
@@ -165,73 +152,25 @@ namespace IDI.Framework
             }
         }
 
-        private void SensorSkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
-        {
-            var skeletonFrame = e.OpenSkeletonFrame();
-            if (skeletonFrame == null)
-            {
-                if (_speechRecognitionOn)
-                {
-                    _speechRecognitionEngine.RecognizeAsyncStop();
-                    _speechRecognitionOn = false;
-                }
-
-            }
-            else
-            {
-                var skeleton = new Skeleton[skeletonFrame.SkeletonArrayLength];
-                skeletonFrame.CopySkeletonDataTo(skeleton);
-                var skeletonReady = skeleton.SingleOrDefault(x => x.TrackingState == SkeletonTrackingState.Tracked);
-
-                if (skeletonReady == null)
-                {
-                    if (_speechRecognitionOn)
-                    {
-                        _speechRecognitionEngine.RecognizeAsyncStop();
-                        _speechRecognitionOn = false;
-                    }
-                }
-                else
-                {
-                    if (!_speechRecognitionOn)
-                    {
-                        _speechRecognitionOn = true;
-                        _speechRecognitionEngine.RecognizeAsync(RecognizeMode.Multiple);
-                    }
-                }
-            }
-        }
-
         private void SpeechRecognitionSpeechRecognized(object sender, SpeechRecognizedEventArgs e)
         {
             if (e.Result != null)
             {
-                _log.Debug(String.Format("Speech recognized, result {0}, confidence {1}", e.Result.Text,
-                                         e.Result.Confidence));
+                _log.Debug(String.Format("Speech recognized, result {0}, confidence {1}", e.Result.Text, e.Result.Confidence));
 
                 if (e.Result.Confidence >= _config.SpeechRecognitionElement.MinimunConfidence)
                 {
                     var semantics = e.Result.Semantics;
-                    if (semantics == null) return;
-                    var plugin = _plugins.SingleOrDefault(x => x.Id == (string)semantics["type"].Value);
-                    if (plugin == null) return;
-
-                    _log.Debug(String.Format("Plugin found name {0}", plugin.Id));
-
-                    Dictionary<string, string> dictionary = null;
-
-                    if (semantics["params"] != null && semantics["params"].Count > 0)
+                    if (semantics != null)
                     {
-                        dictionary = new Dictionary<string, string>();
-                        foreach (var semantic in semantics["params"])
-                        {
-                            var semanticValue = semantic.Value;
-                            dictionary.Add(semantic.Key, (string)semanticValue.Value);
-                        }
-                    }
+                        var plugin = _plugins.Single(x => x.Id == (string)semantics["type"].Value);
+                        var dictionary = GetPluginParameters(semantics);
 
-                    PlayRecognitionOk();
-                    plugin.Execute(dictionary);
+                        _log.Debug(String.Format("Plugin found name {0}", plugin.Id));
+
+                        PlayRecognitionOk();
+                        plugin.Execute(dictionary);
+                    }
                 }
                 else
                 {
@@ -242,6 +181,27 @@ namespace IDI.Framework
             {
                 PlayRecognitionError();
             }
+        }
+
+        private static Dictionary<string, string> GetPluginParameters(SemanticValue semantics)
+        {
+            Dictionary<string, string> dictionary = null;
+
+            if (semantics["params"] != null && semantics["params"].Count > 0)
+            {
+                dictionary = new Dictionary<string, string>();
+                foreach (var semantic in semantics["params"])
+                {
+                    var semanticValue = semantic.Value;
+                    dictionary.Add(semantic.Key, (string)semanticValue.Value);
+                }
+            }
+            return dictionary;
+        }
+
+        public SpeechRecognitionEngine SpeechRecognitionEngine
+        {
+            get { return _speechRecognitionEngine; }
         }
     }
 }

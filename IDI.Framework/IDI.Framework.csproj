@@ -39,14 +39,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Configuration\SpeechSynthesizerElement.cs" />
-    <Compile Include="Model\TrainData.cs" />
+    <Compile Include="FaceDetectionRecognition.cs" />
+    <Compile Include="KinectSensorInfo.cs" />
+    <Compile Include="Model\Face.cs" />
     <Compile Include="Exceptions\IDIRuntimeException.cs" />
     <Compile Include="Configuration\IDIFrameworkSection.cs" />
     <Compile Include="Configuration\SpeechRecognitionElement.cs" />
-    <Compile Include="BasePlugin.cs" />
+    <Compile Include="Plugins\BasePlugin.cs" />
     <Compile Include="Bootstrap.cs" />
     <Compile Include="Exceptions\IDISynthetizerVoiceException.cs" />
+    <Compile Include="Model\IDIContext.cs" />
     <Compile Include="Model\User.cs" />
+    <Compile Include="Plugins\TrainFacePlugin.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -81,18 +85,13 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data.Entity" />
-    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\SqlServerCompact.4.0.8482.1\lib\System.Data.SqlServerCe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.SqlServerCe.Entity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.SqlServerCompact.4.3.2\lib\net40\System.Data.SqlServerCe.Entity.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -101,11 +100,27 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="audio\SpeechNotRecognized.wav" />
-    <Content Include="audio\SpeechRecognized.wav" />
+    <Content Include="resources\SpeechNotRecognized.wav" />
+    <Content Include="resources\SpeechRecognized.wav" />
+    <Content Include="Cascades\haarcascade_frontalface_alt.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Cascades\haarcascade_frontalface_alt2.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Cascades\haarcascade_frontalface_alt_tree.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Cascades\haarcascade_frontalface_default.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Cascades\haarcascade_mcs_mouth.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="cudart32_40_17.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -115,7 +130,7 @@
     <Content Include="cvextern.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="mainDocument.xml" />
+    <Content Include="resources\mainDocument.xml" />
     <Content Include="npp32_40_17.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -158,6 +173,7 @@
     <Content Include="opencv_video231.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="resources\trainface.xml" />
     <Content Include="ZedGraph.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -166,10 +182,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-if not exist "$(TargetDir)x86" md "$(TargetDir)x86"
-xcopy /s /y "$(SolutionDir)packages\SqlServerCompact.4.0.8482.1\NativeBinaries\x86\*.*" "$(TargetDir)x86"
-if not exist "$(TargetDir)amd64" md "$(TargetDir)amd64"
-xcopy /s /y "$(SolutionDir)packages\SqlServerCompact.4.0.8482.1\NativeBinaries\amd64\*.*" "$(TargetDir)amd64"</PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

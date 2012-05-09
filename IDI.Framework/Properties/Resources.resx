@@ -119,12 +119,21 @@
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="mainDocument" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\mainDocument.xml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\resources\mainDocument.xml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="SpeechNotRecognized" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\audio\speechnotrecognized.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\resources\speechnotrecognized.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="SpeechRecognized" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\audio\speechrecognized.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\resources\speechrecognized.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="EndSpelling" xml:space="preserve">
+    <value>Finalizar deletreo</value>
+  </data>
+  <data name="StartSpelling" xml:space="preserve">
+    <value>Comenzar deletreo</value>
+  </data>
+  <data name="trainFace" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\trainface.xml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

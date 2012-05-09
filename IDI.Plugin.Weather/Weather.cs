@@ -6,6 +6,7 @@ using System.Xml;
 using Animaonline.Globals;
 using Animaonline.Weather;
 using IDI.Framework;
+using IDI.Framework.Plugins;
 using IDI.Plugin.Weather.Properties;
 using Microsoft.Speech.Recognition.SrgsGrammar;
 
